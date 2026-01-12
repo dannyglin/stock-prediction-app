@@ -21,7 +21,7 @@ class StockPredictor:
         self.models_used = []  # Track which models are being used
         
     def fetch_stock_data(self, ticker):
-        """Fetch all available stock data from Yahoo Finance"""
+        """Fetch stock data from Yahoo Finance, limited to last 20 years"""
         try:
             stock = yf.Ticker(ticker)
             # Get all available historical data
@@ -43,6 +43,14 @@ class StockPredictor:
             
             # Sort by date
             df = df.sort_values('Date')
+            df = df.reset_index(drop=True)
+            
+            # Limit to last 20 years if data spans more than 20 years
+            end_date = df['Date'].max()
+            start_date = end_date - timedelta(days=365 * 20)  # 20 years
+            
+            # Filter to last 20 years
+            df = df[df['Date'] >= start_date].copy()
             df = df.reset_index(drop=True)
             
             # Keep only Date and Close columns
