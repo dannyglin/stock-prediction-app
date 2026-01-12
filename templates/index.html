@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITF Stock Price Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📈 Stock Price Prediction</h1>
+            <p class="subtitle">Machine Learning Powered 3-Month Forecast</p>
+        </header>
+
+        <div class="ticker-form" id="tickerForm">
+            <form id="stockForm" onsubmit="handleSubmit(event)">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="tickerInput" 
+                        placeholder="Enter stock ticker (e.g., AAPL, MSFT, TSLA)" 
+                        required
+                        autocomplete="off"
+                    >
+                    <button type="submit" id="predictBtn">Predict</button>
+                </div>
+                <p class="form-hint">Enter any stock ticker symbol to get predictions for the next 3 months</p>
+            </form>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p id="loadingText">Training model and generating predictions...</p>
+        </div>
+
+        <div class="content" id="content" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Current Price</div>
+                    <div class="stat-value" id="currentPrice">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Predicted Price (3 months)</div>
+                    <div class="stat-value" id="predictedPrice">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Stock Ticker</div>
+                    <div class="stat-value" id="stockTicker" style="font-size: 1.5rem;">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Expected Change</div>
+                    <div class="stat-value" id="expectedChange">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Models Used</div>
+                    <div class="stat-value" id="modelsUsed" style="font-size: 1rem;">-</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="stockChart"></canvas>
+            </div>
+
+            <div class="info-section">
+                <h2>About This Prediction</h2>
+                <p>
+                    This prediction uses an <strong>ensemble of advanced machine learning models</strong> trained on 
+                    the <strong>entire available history</strong> of stock closing prices. The ensemble combines:
+                </p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Prophet</strong> - Facebook's time series forecasting tool for trends and seasonality</li>
+                </ul>
+                <p style="margin-top: 10px;">
+                    The model is trained on the last 10 years of stock data (or all available data if less than 10 years) 
+                    and analyzes historical patterns, trends, and seasonality to forecast the next 90 days (3 months) of stock prices.
+                </p>
+                <p class="disclaimer">
+                    ⚠️ <strong>Disclaimer:</strong> This is a machine learning prediction and should 
+                    not be considered as financial advice. Stock prices are influenced by many factors 
+                    and past performance does not guarantee future results.
+                </p>
+            </div>
+        </div>
+
+        <div class="error" id="error" style="display: none;">
+            <p>❌ Error loading data. Please try again later.</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
