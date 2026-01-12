@@ -44,7 +44,7 @@ http://localhost:5000
   - Handles trends, seasonality (weekly and yearly), and changepoints automatically
   - Optimized parameters based on data length
   - Uses linear growth model for stock price forecasting
-- The model is trained on the **last 10 years** of daily closing prices (or all available data if less than 10 years)
+- The model is trained on the **entire available history** of daily closing prices
 - Prophet automatically detects patterns, trends, and seasonal effects in the data
 - It predicts the next **90 days (3 months)** of stock prices
 - The model adapts changepoint detection based on the length of historical data
